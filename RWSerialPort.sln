@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RWSerialPort", "RWSerialPort\RWSerialPort.vcxproj", "{CA603844-E241-4245-B545-BBD65EFF7C9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Debug|x64.ActiveCfg = Debug|x64
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Debug|x64.Build.0 = Debug|x64
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Debug|x86.ActiveCfg = Debug|Win32
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Debug|x86.Build.0 = Debug|Win32
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Release|x64.ActiveCfg = Release|x64
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Release|x64.Build.0 = Release|x64
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Release|x86.ActiveCfg = Release|Win32
+		{CA603844-E241-4245-B545-BBD65EFF7C9E}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07FD5CED-89D5-43E7-ABC6-B60806A203D6}
+	EndGlobalSection
+EndGlobal
