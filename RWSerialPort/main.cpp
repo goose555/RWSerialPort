@@ -2,8 +2,14 @@
 
 int main()
 {
+
 	RWSerialPort arduino(COM3);
-	arduino.redSerialPort();
+
+
+	while (1)
+	{
+		arduino.readSerialPort();
+	}
 
 	return 0;
 }

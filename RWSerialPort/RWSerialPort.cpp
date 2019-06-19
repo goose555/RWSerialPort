@@ -1,7 +1,9 @@
 #include "RWSerialPort.h"
-
+#include <string>
 RWSerialPort::RWSerialPort(LPCTSTR portName)
 {
+	errno = 0;
+
 	hComm = CreateFile(portName, 
 		GENERIC_READ | GENERIC_WRITE,
 		0,
@@ -11,8 +13,8 @@ RWSerialPort::RWSerialPort(LPCTSTR portName)
 		NULL);
 
 	if (hComm == INVALID_HANDLE_VALUE){
-		Error = GetLastError();
-		std::cerr << "Error: " << strerror(Error) << std::endl;
+		errno = static_cast<int>(GetLastError());
+		std::cerr << "Error read: " << strerror_s(bufError, sizeof(bufError), errno) << std::endl;
 	}else
 		std::cout << "Opening serial port successful" << std::endl;
 
@@ -23,6 +25,7 @@ RWSerialPort::RWSerialPort(LPCTSTR portName)
 	dcbSerialParams.ByteSize = 8;
 	dcbSerialParams.StopBits = ONESTOPBIT;
 	dcbSerialParams.Parity = NOPARITY;
+	dcbSerialParams.fDtrControl = DTR_CONTROL_ENABLE;
 
 	//Ќастройка порта в соответствии со структурой DCB
 	SetCommState(hComm, &dcbSerialParams);
@@ -63,11 +66,9 @@ RWSerialPort::RWSerialPort(LPCTSTR portName)
 	*/
 }
 
-void RWSerialPort::redSerialPort(void) {
+void RWSerialPort::readSerialPort(void) {
 	Status = SetCommMask(hComm, EV_RXCHAR);
-
 	Status = WaitCommEvent(hComm, &dwEventMask, NULL);
-
 	int i = 0;
 
 	do
@@ -82,6 +83,32 @@ void RWSerialPort::redSerialPort(void) {
 		std::cout << SerialBuffer[i];
 		i++;
 	} while (NoBytesRead > 0);
+}
+
+void RWSerialPort::writeSerialPort(char *lpBuffer, DWORD dNoOFBytestoWrite) {
+	//lpBuffer - массив данных дл€ записи в последовательный порт
+
+	Status = WriteFile(hComm,
+		lpBuffer,
+		dNoOFBytestoWrite,  // оличество записаных байтов
+		&dNoOfBytesWritten, //Ѕайтов записано
+		NULL);
+
+	if (Status)
+	{
+		std::cout << "Write byte successful: Bytes "
+			<< dNoOfBytesWritten << " from " << dNoOFBytestoWrite 
+			<< std::endl;
+	}
+	else {
+		errno = static_cast<int>(GetLastError());
+		strerror_s(bufError, sizeof(bufError), errno);
+		std::cerr << "Error write: " << bufError << std::endl;
+	}
+}
+
+bool RWSerialPort::isConnected(void) {
+	return this->Status;
 }
 
 RWSerialPort::~RWSerialPort()

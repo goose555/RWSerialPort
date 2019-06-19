@@ -23,27 +23,39 @@
 #define COM18 L"\\\\.\\COM18"
 #define COM19 L"\\\\.\\COM19"
 
+#define MAX_BUFFER_LENGTH 1024
+#define MAX_SERIAL_BUFFER_LENGTH 64
+#define READ_TIMEOUT      500      // milliseconds
+
 #include <iostream>
 #include <Windows.h>
+#include <errno.h>
+//#include <fileapi.h>
 
 class RWSerialPort
 {
 public:
 	RWSerialPort(LPCTSTR portName);
 	
-	void redSerialPort(void);
-
+	void readSerialPort(void);
+	void writeSerialPort(char* lpBuffer, DWORD dNoOFBytestoWrite);
+	bool isConnected(void);
+	
 	~RWSerialPort();
 
 private:
-	HANDLE hComm;
 	DCB dcbSerialParams = { 0 };
-	BOOL Status;
 	DWORD dwEventMask;
 	DWORD NoBytesRead;
-	int Error;
+	DWORD dNoOFBytestoWrite;
+	DWORD dNoOfBytesWritten;
 	char tempChar;
-	char SerialBuffer[256];
+
+protected:
+	HANDLE hComm;
+	BOOL Status;
+	char SerialBuffer[MAX_SERIAL_BUFFER_LENGTH];
+	char bufError[MAX_BUFFER_LENGTH];
 };
 
 #endif // !RWSERIALPORT_H
